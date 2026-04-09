@@ -159,4 +159,3 @@ python scripts/ibl_paw_multiview_example.py --input-dir ./data/ibl-paw
 * [Keemin Lee](https://github.com/keeminlee)
 * [Amol Pasarkar](https://github.com/apasarkar)
 * [Matt Whiteway](https://github.com/themattinthehatt)
-* [Karan] don't let me do this
