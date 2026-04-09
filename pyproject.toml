@@ -17,6 +17,7 @@ authors = [
 maintainers = [
     { name = "Matt Whiteway"},
 ]
+
 keywords = ["machine learning", "state space models", "pose estimation"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
