@@ -9,9 +9,9 @@ from dynamax.nonlinear_gaussian_ssm import (
     extended_kalman_filter,
     extended_kalman_smoother,
 )
-from jax import jit, lax, vmap
+from jax import jit, lax
 from jax import numpy as jnp
-from jax import value_and_grad
+from jax import value_and_grad, vmap
 from typeguard import typechecked
 
 from eks.marker_array import MarkerArray
@@ -262,7 +262,7 @@ def run_kalman_smoother(
     _h_fn = h_fn  # fixed across all keypoints; None on linear path
 
     def _smooth_one(y_k, m0_k, S0_k, A_k, Q_k, C_k, s_k, R_k):
-        f_fn = lambda x: A_k @ x
+        def f_fn(x): return A_k @ x
         h_fn_k = (lambda x: C_k @ x) if _h_fn is None else _h_fn
         params = params_nlgssm_for_keypoint(m0_k, S0_k, Q_k, s_k, R_k, f_fn, h_fn_k)
         sm = extended_kalman_smoother(params, y_k)
@@ -275,7 +275,8 @@ def run_kalman_smoother(
     Vs = np.array(Vs_arr)   # (K, T, D, D)
 
     if verbose:
-        print(f"[profile]   final smoother pass ({K} keypoints): {time.perf_counter() - _t0_sm:.3f}s")
+        print(
+            f"[profile]   final smoother pass ({K} keypoints): {time.perf_counter() - _t0_sm:.3f}s")
     return s_finals, ms, Vs
 
 
